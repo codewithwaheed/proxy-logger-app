@@ -10,10 +10,11 @@ import helmet from "helmet";
 dotenv.config();
 
 const app = express();
-  app.use(cors({
-    origin: ["http://localhost:5173", "https://proxy-logger-tau.vercel.app/", process.env.CLIENT_URL!],
-    credentials: true,
-  }));
+app.use(cors({
+    origin: ["http://localhost:5173", "https://proxy-logger-tau.vercel.app", process.env.CLIENT_URL!],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+
+}));
 
 app.use(express.json());
 app.use(helmet());
@@ -21,6 +22,11 @@ app.use(helmet());
 mongoose.connect(process.env.MONGO_URI as string)
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.error("MongoDB connection error:", err));
+
+app.use((req, res, next) => {
+  console.log("Origin:", req.headers.origin);
+  next();
+});
 
 app.post("/api/test", (req, res) => {
     res.json({ message: "Hello from backend!" });
