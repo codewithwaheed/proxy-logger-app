@@ -12,7 +12,6 @@ import {
   flexRender,
 } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
 
 export function DataTable<TData>({
   data,
